@@ -69,4 +69,4 @@ end
 gem "devise", "~> 4.9"
 gem "activeadmin"
 gem 'sassc'
-
+gem 'letter_opener_web', group: :development
