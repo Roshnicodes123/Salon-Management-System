@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   devise_for :barbars,
     controllers: {
       registrations: 'registrations',
+      sessions: 'sessions'
     }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
