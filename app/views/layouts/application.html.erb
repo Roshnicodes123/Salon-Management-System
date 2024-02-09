@@ -22,6 +22,10 @@
         Signed in as <%= current_user.username %>. This cannot be cheese?
         
         <%= link_to 'Sign out', destroy_user_session_path %>
+        
+        <% elsif barbar_signed_in? %>
+        Signed in as <%= current_barbar.username %>. This cannot be cheese?
+        <%= link_to 'Sign out', destroy_barbar_session_path %>
     <% else %>
         <%= link_to 'Register As a User', new_user_registration_path %> or <%= link_to 'Sign in as User', new_user_session_path %> ||
          
