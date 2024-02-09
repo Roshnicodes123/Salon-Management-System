@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   mount LetterOpenerWeb::Engine, at: "/letter_opener"
-  devise_for :admin_users, ActiveAdmin::Devise.config
+  devise_for :salons, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   # devise_for :barbars
   devise_for :users

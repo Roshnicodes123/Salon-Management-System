@@ -1,4 +1,7 @@
-ActiveAdmin.register AdminUser do
+ActiveAdmin.register Salon do
+  menu priority: 2
+  actions :all, :except => [:new, :destroy]
+
   permit_params :email, :password, :password_confirmation
 
   index do
