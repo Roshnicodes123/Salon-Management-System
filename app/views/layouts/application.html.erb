@@ -8,17 +8,19 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %> 
     <%= javascript_importmap_tags %>
-    
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   </head>
 
   <body>
-    <%= yield %>
 
-      <p class="notice"><%= notice %></p>
-       <p class="alert"><%= alert %></p>
-       <div id="user_nav">
-    <% if user_signed_in? %>
+
+<nav class="navbar navbar-dark bg-dark
+">
+  <a class="navbar-brand" href="/">Salon Mangement System</a>
+  <form class="form-inline">
+   <% if user_signed_in? %>
         Signed in as <%= current_user.username %>. This cannot be cheese?
         
         <%= link_to 'Sign out', destroy_user_session_path %>
@@ -27,10 +29,27 @@
         Signed in as <%= current_barbar.username %>. This cannot be cheese?
         <%= link_to 'Sign out', destroy_barbar_session_path %>
     <% else %>
-        <%= link_to 'Register As a User', new_user_registration_path %> or <%= link_to 'Sign in as User', new_user_session_path %> ||
-         
-        <%= link_to 'Register As a Barbar', new_barbar_registration_path %> or <%= link_to 'Sign in as a Barbar', new_barbar_session_path %>
-    <% end %>
+    <div class="btn-group" role="group" aria-label="Register and Sign In">
+  <%= link_to 'User Sign Up', new_user_registration_path, class: 'btn btn-outline-primary' %>
+  <%= link_to 'User Sign in ', new_user_session_path, class: 'btn btn-outline-primary' %>
+</div>
 
+ <div class="btn-group" role="group" aria-label="Register and Sign In">
+  <%= link_to 'Barber Sign Up', new_barbar_registration_path, class: 'btn btn-outline-primary' %>
+  <%= link_to 'Barber Sign in ', new_barbar_session_path, class: 'btn btn-outline-primary' %>
+  <%end%>
+</div>
+    
+  </form>
+</nav>
+
+
+
+    <%= yield %>
+
+      <p class="notice"><%= notice %></p>
+       <p class="alert"><%= alert %></p>
+       <div id="user_nav">
+    
   </body>
 </html>

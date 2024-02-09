@@ -29,25 +29,25 @@ ActiveAdmin.register Barbar do
     f.actions
   end
 
-  member_action :activate, method: :put do
-    resource.update!(status: :active)
-    BarbarMailer.account_activation_mail(resource.email).deliver_now
-    redirect_to admin_barbars_path, notice: "barbar was succefully activated."
-  end
+  # member_action :activate, method: :put do
+  #   resource.update!(status: :active)
+  #   BarbarMailer.account_activation_mail(resource.email).deliver_now
+  #   redirect_to admin_barbars_path, notice: "barbar was succefully activated."
+  # end
   
 
-  controller do
-    def update
-      update! do |format|
-        if resource.status == 'active'
-          BarbarMailer.account_activation_mail(resource.email).deliver_now
-          format.html { redirect_to admin_barbars_path, notice: "Activation email sent successfully!" }
-        else
-          format.html { redirect_to admin_barbars_path, notice: "Barbar was successfully updated." }
-        end
-      end
-    end
-  end
+  # controller do
+  #   def update
+  #     update! do |format|
+  #       if resource.status == 'active'
+  #         BarbarMailer.account_activation_mail(resource.email).deliver_now
+  #         format.html { redirect_to admin_barbars_path, notice: "Activation email sent successfully!" }
+  #       else
+  #         format.html { redirect_to admin_barbars_path, notice: "Barbar was successfully updated." }
+  #       end
+  #     end
+  #   end
+  # end
   
   
 end
