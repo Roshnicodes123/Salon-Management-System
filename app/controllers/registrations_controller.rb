@@ -3,4 +3,10 @@ class RegistrationsController < Devise::RegistrationsController
     super
     sign_out(resource)
   end
+
+  private
+
+  def sign_up_params
+    params.require(:barbar).permit(:email, :password, :password_confirmation, :salon_id)
+  end
 end
