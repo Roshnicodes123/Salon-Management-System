@@ -2,6 +2,7 @@ class Barbar < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   belongs_to :salon
+  has_many :appointments
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
@@ -13,6 +14,7 @@ class Barbar < ApplicationRecord
   before_save :send_activation_email, if: :account_activated?
   before_save :send_inactivation_email, if: :account_inactivated?
 
+  scope :active, ->  { where(status:  :active) }
 
   def confirmation_email
     BarbarMailer.confirmation_email(self.email).deliver_now

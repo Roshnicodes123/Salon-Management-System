@@ -1,6 +1,6 @@
 ActiveAdmin.register Barbar do
 
-  permit_params :email, :password,:status
+  permit_params :email, :password,:status,:username
 
   index do
     column :email
@@ -16,6 +16,7 @@ ActiveAdmin.register Barbar do
   form do |f|
     f.inputs do
       f.input :email
+      f.input :username
       f.input :status, as: :select
     end
     f.actions

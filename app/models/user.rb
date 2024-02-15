@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,:confirmable
         #  validates :username, presence: true, uniqueness:(case_insensitive: false)
   after_create :welcome_email
+  has_many :appointments
 
   def welcome_email
     UserMailer.confirmation_login_mail(self.email).deliver_now

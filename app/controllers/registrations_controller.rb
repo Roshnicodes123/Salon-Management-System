@@ -7,6 +7,6 @@ class RegistrationsController < Devise::RegistrationsController
   private
 
   def sign_up_params
-    params.require(:barbar).permit(:email, :password, :password_confirmation, :salon_id)
+    params.require(:barbar).permit(:username, :email, :password, :password_confirmation, :salon_id)
   end
 end

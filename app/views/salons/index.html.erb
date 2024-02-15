@@ -1,0 +1,7 @@
+<h1>Salons</h1>
+<% @salons.each do |salon| %>
+  <div class="salon" <% if false %>style="background-image: url('<%= url_for(salon.cover_image) %>')" <% end %>>
+    <%= salon.name %>
+    <b>Location: <%= salon.address%></b>
+  </div>
+<% end %>

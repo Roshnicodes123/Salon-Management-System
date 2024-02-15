@@ -73,3 +73,7 @@ gem 'letter_opener_web', group: :development
 
 gem 'bootstrap', '~> 4.1.1'
 gem 'jquery-rails'
+# group :development do
+#   gem 'letter_opener_web', '~> 2.0'
+# end
+# gem 'active_storage'

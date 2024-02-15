@@ -1,0 +1,37 @@
+<div style="display:flex; justify-content: space-between; align-items: flex-start;">
+  <div style="flex: 1;">
+    <h1>Salon Information:</h1>
+
+    <h4><%= @salon.name %></h4>
+    <h4>Address: <%= @salon.address %></h4>
+    <h4>Start Time: <%= @salon.start_time %></h4>
+    <h4>End Time: <%= @salon.end_time %></h4>
+
+    <% if @salon.cover_image.present? %>
+      <h4>Image: <%= image_tag @salon.cover_image, style: "height: 200px; width: 200px;" %></h4>
+    <% else %>
+      <h4>No Image Available</h4>
+    <% end %>
+  </div>
+
+  <div style="flex: 1; padding: 0 20px;">
+    <h2>Services</h2>
+    <ul>
+      <% @salon.services.each do |service| %>
+        <li><%= service.name %></li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div style="flex: 1;">
+    <h2>Barbers</h2>
+    <ul>
+      <% @salon.barbars.active.each do |barbar| %>
+        <li><%= barbar.username %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<div class="mt-4">
+<%= link_to "Book Appointment", new_appointment_path(salon_id: @salon.id) %>
