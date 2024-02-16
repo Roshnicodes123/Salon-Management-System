@@ -17,14 +17,16 @@
  */
  @import "bootstrap";
  body {
-  background-color: #d9d9d9 !important
+  background-color: #d9d9d9 !important;
+  // background: asset_url('background.jpg')
+}
   // min-height: 100vh;
   // background-size: cover;
   // display: flex;
   // flex-direction: column;
   // align-items: center;
   // justify-content: center;
-}
+
 
  .center {
   
@@ -56,3 +58,10 @@
 //   background-image: url('/assets/images/background-image.jpg');
 //   background-size: cover; /* Adjust as needed */
 // }
+.navbar {
+  background-color: white; /* Black background */
+}
+
+.navbar a {
+  color: #ffffff; /* White text */
+}

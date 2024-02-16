@@ -2,8 +2,12 @@
 class AppointmentsController < ApplicationController
   def new
     @appointment = Appointment.new
-    @barbars = Barbar.all
-    @services = Service.all
+    # @barbars = Barbar.all
+    # @services = Service.all
+
+    @salon = Salon.find(params[:salon_id])
+    @barbars = @salon.barbars.active
+    @services = @salon.services
   end
 
   def create
