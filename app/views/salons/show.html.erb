@@ -3,7 +3,7 @@
   <div class="row justify-content-center align-items-start h-100">
 
     <div>
-      <h2 class="text-white">Services</h2>
+      <h2 class="text-white">Our Services</h2>
       <ul class="list-group text-white">
         <% @salon.services.each do |service| %>
           <li class="list-group-item bg-transparent text-white"><%= service.name %></li>
@@ -13,16 +13,16 @@
 
     <div>
       <ul class="list-group text-white text-end">
-        <h4><%= @salon.name %></h4>
-        <h4>Address: <%= @salon.address %></h4>
-        <h4>Start Time: <%= @salon.start_time %></h4>
-        <h4>End Time: <%= @salon.end_time %></h4>
+        <h2><%= @salon.name %></h2>
+        <p> Address: <%= @salon.address %> </p>
+       <p> Start Time: <%= @salon.start_time %> <p>
+        <p> End Time: <%= @salon.end_time %> </p>
       </ul>
     </div>
 
       <div class="row mt-4">
         <div class="col text-center">
-          <%= link_to "Book Appointment", new_appointment_path(salon_id: @salon.id), class: "btn btn-primary" %>
+          <%= link_to "Book Appointment", new_appointment_path(salon_id: @salon.id), class: "btn btn-warning" %>
         </div>
       </div>
     </div>
