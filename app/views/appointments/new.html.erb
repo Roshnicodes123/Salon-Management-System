@@ -1,5 +1,8 @@
+<div class="container-fluid position-relative" style="background-image: url('<%= url_for(@salon.cover_image) %>'); background-size: cover; height: 100vh;">
+
 <%= form_for @appointment, url: appointments_path do |f| %>
   <%= f.collection_select :barbar_id, @barbars, :id, :username, prompt: 'Select Barbar' %>
   <%= f.collection_select :service_id, @services, :id, :name, prompt: 'Select Service' %>
   <%= f.submit 'Book Appointment' %>
 <% end %>
+</div>
