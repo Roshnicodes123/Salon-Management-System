@@ -1,10 +1,18 @@
-<div class="container-fluid position-relative" style="background-image: url('<%= url_for(@salon.cover_image) %>'); background-size: cover; height: 100vh;">
+<div class="center ">
+<h1>Book your Appointment</h2>
 
-<%= form_for @appointment, url: appointments_path do |f| %>
-  <%= f.collection_select :TimeSlot, @available_time_slots, :id, :start_time, prompt: 'Select Time Slot' %>
-  <%= f.collection_select :Barbar, @barbars, :id, :email, prompt: 'Select Barber' %>
-  <%= f.collection_select :Service, @services, :id, :name, prompt: 'Select Service' %>
-  <%= f.submit 'Book Appointment' %>
+<%= form_with(model: @appointment, url: appointments_path, method: :post) do |form| %>
+  <%= form.label :barber_id, 'Select Barber:' %>
+  <%= form.collection_select :barbar_id, Barbar.all, :id, :email, prompt: 'Choose a barber' %>
+  </br>
+
+  <%= form.label :service_id, 'Select Service:' %>
+  <%= form.collection_select :service_id, Service.all, :id, :name, prompt: 'Choose a service' %>
+  </br>
+
+  <%= form.label :time_slot_id, 'Select Time Slot:' %>
+  <%= form.collection_select :time_slot_id, @available_time_slots, :id, :formatted_time, prompt: 'Choose a time slot' %>
+  </br>
+  <%= form.submit 'Book Appointment' %>
 <% end %>
-
 </div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_19_071513) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_19_172345) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -52,6 +52,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_19_071513) do
     t.datetime "updated_at", null: false
     t.datetime "start_time"
     t.datetime "end_time"
+    t.integer "time_slot_id"
     t.index ["barbar_id"], name: "index_appointments_on_barbar_id"
     t.index ["salon_id"], name: "index_appointments_on_salon_id"
     t.index ["service_id"], name: "index_appointments_on_service_id"
@@ -86,12 +87,21 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_19_071513) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
+    t.string "address"
     t.time "start_time"
     t.time "end_time"
-    t.string "address"
     t.integer "seat_capacity", default: 10
     t.index ["email"], name: "index_salons_on_email", unique: true
     t.index ["reset_password_token"], name: "index_salons_on_reset_password_token", unique: true
+  end
+
+  create_table "seats", force: :cascade do |t|
+    t.string "name"
+    t.string "status", default: "available"
+    t.bigint "salon_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["salon_id"], name: "index_seats_on_salon_id"
   end
 
   create_table "services", force: :cascade do |t|
@@ -137,5 +147,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_19_071513) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "seats", "salons"
   add_foreign_key "time_slots", "salons"
 end

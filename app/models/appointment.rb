@@ -3,7 +3,7 @@ class Appointment < ApplicationRecord
   belongs_to :barbar
   belongs_to :salon
   belongs_to :service
-  belongs_to :TimeSlot
+  belongs_to :time_slot
 
   validates :time_slot, presence: true
   validate :validate_seats_availability

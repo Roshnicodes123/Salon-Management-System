@@ -8,7 +8,6 @@ class AppointmentsController < ApplicationController
 
   def create
     @appointment = Appointment.new(appointment_params)
-    
     if @appointment.save
       redirect_to root_path, notice: 'Appointment booked successfully.'
     else
