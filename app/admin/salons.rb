@@ -2,7 +2,7 @@ ActiveAdmin.register Salon do
   menu priority: 2
   actions :all, :except => [:new, :destroy]
 
-  permit_params :email, :name,:password, :password_confirmation, :address, :start_time, :end_time, :cover_image
+  permit_params :email, :name,:password, :password_confirmation, :address, :start_time, :end_time, :seat_capacity, :cover_image
 
   index do
     selectable_column
@@ -15,6 +15,7 @@ ActiveAdmin.register Salon do
     column :address
     column :start_time
     column :end_time
+    column :seat_capacity
     column :cover_image, as: :file
     column :created_at
     actions
@@ -32,6 +33,7 @@ ActiveAdmin.register Salon do
       f.input :address
       f.input :start_time
       f.input :end_time
+      f.input :seat_capacity, input_html: { value: 10 }
       f.input :cover_image, as: :file
     end
     

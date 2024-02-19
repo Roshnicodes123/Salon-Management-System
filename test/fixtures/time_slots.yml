@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  start_time: 2024-02-19 12:45:13
+  end_time: 2024-02-19 12:45:13
+  salon: one
+
+two:
+  start_time: 2024-02-19 12:45:13
+  end_time: 2024-02-19 12:45:13
+  salon: two

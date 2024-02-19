@@ -6,7 +6,8 @@ class User < ApplicationRecord
         #  validates :username, presence: true, uniqueness:(case_insensitive: false)
   after_create :welcome_email
   has_many :appointments
-
+  belongs_to :salon, optional: true 
+  has_one :time_slot 
   def welcome_email
     UserMailer.confirmation_login_mail(self.email).deliver_now
   end
