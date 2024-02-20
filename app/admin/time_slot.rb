@@ -24,7 +24,7 @@ ActiveAdmin.register TimeSlot do
       f.inputs 'Time Slot Details' do
         f.input :start_time
         f.input :end_time
-        # f.input :available_seats
+        # f.input :available_seatsP
         f.input :salon_id, as: :hidden
       end
       f.actions

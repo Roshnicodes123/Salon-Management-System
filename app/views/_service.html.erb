@@ -1,0 +1,9 @@
+<!-- _services.html.erb -->
+<div style="flex: 1; padding: 0 20px;">
+  <h2>Services</h2>
+  <ul>
+    <% @salon.services.each do |service| %>
+      <li><%= service.name %></li>
+    <% end %>
+  </ul>
+</div>

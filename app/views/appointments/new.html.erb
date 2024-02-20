@@ -1,10 +1,9 @@
 <div class="container-fluid position-relative" style="background-image: url('<%= url_for(@salon.cover_image) %>'); background-size: cover; height: 100vh;">
-
   <div class="center" style="color: white;">
     <h1>Book your Appointment</h1>
 
-    <%= form_with(model: @appointment, url: appointments_path, method: :post) do |form| %>
-      <%= form.label :barber_id, 'Select Barber:' %>
+    <%= form_for @appointment, url: appointments_path, method: :post do |form| %>
+      <%= form.label :barbar_id, 'Select Barber:' %>
       <%= form.collection_select :barbar_id, @barbars, :id, :username, prompt: 'Choose a barber' %>
       </br>
 
@@ -13,7 +12,7 @@
       </br>
 
       <%= form.label :time_slot_id, 'Select Time Slot:' %>
-      <%= form.collection_select :time_slot_id, @available_time_slots, :id, :start_time, {}, { prompt: 'Choose a time slot' } %>
+      <%= form.collection_select :time_slot_id, @available_time_slots, :id, :formatted_start_time, {}, { prompt: 'Choose a time slot' } %>
       </br>
 
       <%= form.submit 'Book Appointment' %>

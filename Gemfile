@@ -77,3 +77,5 @@ gem 'jquery-rails'
 #   gem 'letter_opener_web', '~> 2.0'
 # end
 # gem 'active_storage'
+# Gemfile
+gem 'whenever', require: false

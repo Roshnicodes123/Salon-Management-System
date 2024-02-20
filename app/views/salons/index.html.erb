@@ -3,7 +3,7 @@
   <a href="<%= salon_path(salon) %>">
     <div class="salon" <% if salon.cover_image.attached? %>style="background-image: url('<%= url_for(salon.cover_image) %>'); background-size: cover;" <% end %>>
       <h3 style="color: white; font-size: 15px;font-style: italic;"><%= salon.name %></h3>
-      
+        
       <h4 style="color: white;font-size: 15px;font-style: italic;">Location: <%= salon.address %></h4>
     </div>
   </a>

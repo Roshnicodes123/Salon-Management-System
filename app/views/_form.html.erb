@@ -1,0 +1,7 @@
+<!-- app/views/appointments/_form.html.erb -->
+<%= form_for @appointment, url: appointments_path do |f| %>
+  <%= render 'barbers/barber_select', f: f, barbars: barbars %>
+  <%= render 'services/service_select', f: f, services: services %>
+  <%= render 'salons/salon_info' %> <!-- Add salon info partial -->
+  <%= f.submit 'Book Appointment' %>
+<% end %>

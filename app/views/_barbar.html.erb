@@ -1,0 +1,8 @@
+<div style="flex: 1;">
+  <h2>Barbers</h2>
+  <ul>
+    <% @salon.barbars.active.each do |barbar| %>
+      <li><%= barbar.username %></li>
+    <% end %>
+  </ul>
+</div>

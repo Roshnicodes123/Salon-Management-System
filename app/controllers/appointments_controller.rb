@@ -3,9 +3,11 @@ class AppointmentsController < ApplicationController
   before_action :set_available_time_slots, only: [:new, :create]
   
   def new
+    
     @appointment = Appointment.new
     @barbars = current_salon.barbars
     @services = current_salon.services
+    debugger
     @available_time_slots = current_salon.available_time_slots
   end
 

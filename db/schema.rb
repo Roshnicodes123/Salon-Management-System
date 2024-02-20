@@ -106,8 +106,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_19_172345) do
   end
 
   create_table "time_slots", force: :cascade do |t|
-    t.time "start_time"
-    t.time "end_time"
+    t.datetime "start_time"
+    t.datetime "end_time"
     t.bigint "salon_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
