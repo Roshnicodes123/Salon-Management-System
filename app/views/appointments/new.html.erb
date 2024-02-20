@@ -1,18 +1,22 @@
-<div class="center ">
-<h1>Book your Appointment</h2>
+<div class="container-fluid position-relative" style="background-image: url('<%= url_for(@salon.cover_image) %>'); background-size: cover; height: 100vh;">
 
-<%= form_with(model: @appointment, url: appointments_path, method: :post) do |form| %>
-  <%= form.label :barber_id, 'Select Barber:' %>
-  <%= form.collection_select :barbar_id, Barbar.all, :id, :email, prompt: 'Choose a barber' %>
-  </br>
+  <div class="center" style="color: white;">
+    <h1>Book your Appointment</h1>
 
-  <%= form.label :service_id, 'Select Service:' %>
-  <%= form.collection_select :service_id, Service.all, :id, :name, prompt: 'Choose a service' %>
-  </br>
+    <%= form_with(model: @appointment, url: appointments_path, method: :post) do |form| %>
+      <%= form.label :barber_id, 'Select Barber:' %>
+      <%= form.collection_select :barbar_id, @barbars, :id, :username, prompt: 'Choose a barber' %>
+      </br>
 
-  <%= form.label :time_slot_id, 'Select Time Slot:' %>
-  <%= form.collection_select :time_slot_id, @available_time_slots, :id, :formatted_time, prompt: 'Choose a time slot' %>
-  </br>
-  <%= form.submit 'Book Appointment' %>
-<% end %>
+      <%= form.label :service_id, 'Select Service:' %>
+      <%= form.collection_select :service_id, @services, :id, :name, prompt: 'Choose a service' %>
+      </br>
+
+      <%= form.label :time_slot_id, 'Select Time Slot:' %>
+      <%= form.collection_select :time_slot_id, @available_time_slots, :id, :start_time, {}, { prompt: 'Choose a time slot' } %>
+      </br>
+
+      <%= form.submit 'Book Appointment' %>
+    <% end %>
+  </div>
 </div>

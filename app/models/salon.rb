@@ -17,8 +17,9 @@ class Salon < ApplicationRecord
     authorizable_ransackable_attributes
   end
 
-  def available_time_slots_with_seats
-    time_slots.where('start_time > ?', DateTime.now).includes(:available_seats)
+  def available_time_slots
+  
+    time_slots.where('start_time > ?', DateTime.now)
   end
   
   

@@ -4,6 +4,9 @@ class AppointmentsController < ApplicationController
   
   def new
     @appointment = Appointment.new
+    @barbars = current_salon.barbars
+    @services = current_salon.services
+    @available_time_slots = current_salon.available_time_slots
   end
 
   def create

@@ -31,10 +31,11 @@ ActiveAdmin.register TimeSlot do
     end
     controller do
 
-      def create
-        z = current_salon.time_slots.create(permitted_params[:time_slot])
+      def scoped_collection
+        current_salon.time_slots
       end
     end
+    
     
   end
   
