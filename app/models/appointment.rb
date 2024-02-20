@@ -8,6 +8,8 @@ class Appointment < ApplicationRecord
   validates :time_slot, presence: true
   validate :validate_seats_availability
 
+  # validates :time_slot, uniqueness: { scope: :user_id }
+
   private
 
   def validate_seats_availability

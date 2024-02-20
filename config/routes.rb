@@ -17,8 +17,9 @@ Rails.application.routes.draw do
   
   # resources :home
   root to: "salons#index"
-  resources :salons
+  resources :salons do
   resources :appointments
+  end
 
 
   # Defines the root path route ("/")

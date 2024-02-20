@@ -2,7 +2,10 @@
   <div class="center" style="color: white;">
     <h1>Book your Appointment</h1>
 
-    <%= form_for @appointment, url: appointments_path, method: :post do |form| %>
+    <%= form_for @appointment, url: salon_appointments_path, method: :post do |form| %>
+      <%= form.hidden_field :user_id, value: current_user.id %>
+      <%= form.hidden_field :salon_id, value: @salon.id %>
+
       <%= form.label :barbar_id, 'Select Barber:' %>
       <%= form.collection_select :barbar_id, @barbars, :id, :username, prompt: 'Choose a barber' %>
       </br>
