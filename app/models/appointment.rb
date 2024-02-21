@@ -7,10 +7,18 @@ class Appointment < ApplicationRecord
 
   validates :time_slot, presence: true
   validate :validate_seats_availability
+  
+  validate :validate_time_slot_availability
 
-  # validates :time_slot, uniqueness: { scope: :user_id }
+validates :time_slot, uniqueness: { scope: :user_id }
 
   private
+  def validate_time_slot_availability
+    # Check if the selected time slot is already fully booked
+    if time_slot.present? && time_slot.appointments.count >= 10
+      errors.add(:base, 'This time slot is fully booked. Please choose another time slot.')
+    end
+  end
 
   def validate_seats_availability
     return unless time_slot.present?

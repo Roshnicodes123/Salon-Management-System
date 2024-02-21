@@ -1,10 +1,9 @@
 namespace :salon do
   desc "Generate time slots starting from 12 PM for the current salon"
-  task :generate_time_slots_from_noon, [:salon_id] => :environment do |task, args|
-    
-  
+  task :generate_time_slots, [:salon_id] => :environment do |task, args|
+    debugger
+    # salon = Salon.find(args[:salon_id])
     salon = Salon.find(args.salon_id)
-
     if salon.present?
       start_date = Date.current
       end_date = Date.current + 10.days

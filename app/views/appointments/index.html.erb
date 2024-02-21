@@ -1,0 +1,41 @@
+<div class="container-fluid position-relative" style="background-image: url('<%= url_for(@salon.cover_image) %>'); background-size: cover; height: 100vh;">
+<div class="center" style="color: white;">
+
+<h1>Appointments List</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Barber</th>
+      <th>Service</th>
+      <th>Time Slot</th>
+      <th>Salon</th>
+      <!-- Add more columns as needed -->
+    </tr>
+  </thead>
+  <tbody>
+    <% current_user.appointments.each do |appointment| %>
+      <tr>
+        <td><%= appointment.barbar.username %></td>
+        <% if appointment.service.present? %>
+          <td><%= appointment.service.name %></td>
+        <% else %>
+          <td>N/A</td>
+        <% end %>
+        <% if appointment.time_slot.present? %>
+        <td><%= "#{appointment.time_slot.formatted_start_time} - #{appointment.time_slot.end_time}" %></td>
+        <% else %>
+          <td>N/A</td>
+        <% end %>
+        <% if appointment.salon.present? %>
+          <td><%= appointment.salon.name %></td>
+        <% else %>
+          <td>N/A</td>
+        <% end %>
+        <!-- Add more columns as needed -->
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+</div>

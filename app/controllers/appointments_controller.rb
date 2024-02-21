@@ -1,7 +1,15 @@
 # app/controllers/appointments_controller.rb
 class AppointmentsController < ApplicationController
-  before_action :set_available_time_slots, only: [:new, :create]
+  before_action :set_available_time_slots, only: [:new, :create, :index]
   
+
+  def index
+    @appointments = Appointment.all 
+    @appointments = current_user.appointments
+    @appointments = @salon.appointments if @salon.present?
+
+  end
+
   def new
     @appointment = Appointment.new
     @barbars = @salon.barbars
@@ -11,11 +19,18 @@ class AppointmentsController < ApplicationController
 
   def create
     @appointment = Appointment.new(appointment_params)
-    if @appointment.save
-      redirect_to root_path, notice: 'Appointment booked successfully.'
+    debugger
+    if @appointment.save!
+      redirect_to salon_appointment_path(@salon, @appointment), notice: 'Appointment booked successfully.'
     else
       render :new
     end
+  end
+
+  def show
+    @appointment = Appointment.find(params[:id])
+    @salon = @appointment.salon # Assuming appointment belongs to a salon
+
   end
 
   private

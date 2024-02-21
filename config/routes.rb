@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   # resources :home
   root to: "salons#index"
   resources :salons do
-  resources :appointments
+    resources :appointments
   end
 
 
