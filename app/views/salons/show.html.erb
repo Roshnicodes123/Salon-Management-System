@@ -22,8 +22,14 @@
 
       <div class="row mt-4">
         <div class="col text-center">
+        <%if current_user%>
           <%= link_to "Book Appointment", new_salon_appointment_path(salon_id: @salon.id), class: "btn btn-warning" %>
-        </div>
+        <% else %>
+        <%= link_to " Appointments", salon_appointments_path(salon_id: @salon.id), class: "btn btn-warning" %>
+
+        <% end %>
+
+          </div>
       </div>
     </div>
 

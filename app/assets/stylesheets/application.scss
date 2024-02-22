@@ -65,3 +65,12 @@
 .navbar a {
   color: #ffffff; /* White text */
 }
+/* app/assets/stylesheets/application.css */
+/* app/assets/stylesheets/application.css */
+.pagination-container {
+  position: fixed; /* Change to fixed to make it stick to the bottom of the viewport */
+  bottom: 0; /* Align to the bottom of the viewport */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Adjust to center the container horizontally */
+}
+

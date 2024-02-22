@@ -5,9 +5,12 @@ class AppointmentsController < ApplicationController
 
   def index
     @appointments = Appointment.all 
+    if current_user
     @appointments = current_user.appointments
+    else
+      @appointments = current_barbar.appointments
     @appointments = @salon.appointments if @salon.present?
-
+    end
   end
 
   def new
@@ -19,7 +22,6 @@ class AppointmentsController < ApplicationController
 
   def create
     @appointment = Appointment.new(appointment_params)
-    debugger
     if @appointment.save!
       redirect_to salon_appointment_path(@salon, @appointment), notice: 'Appointment booked successfully.'
     else

@@ -79,3 +79,4 @@ gem 'jquery-rails'
 # gem 'active_storage'
 # Gemfile
 gem 'whenever', require: false
+gem 'will_paginate'

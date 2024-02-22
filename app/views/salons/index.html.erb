@@ -1,10 +1,31 @@
+<!-- app/views/salons/index.html.erb -->
+
 <h1>Salons</h1>
-<% @salons.each do |salon| %>
-  <a href="<%= salon_path(salon) %>">
-    <div class="salon" <% if salon.cover_image.attached? %>style="background-image: url('<%= url_for(salon.cover_image) %>'); background-size: cover;" <% end %>>
-      <h3 style="color: white; font-size: 15px;font-style: italic;"><%= salon.name %></h3>
-        
-      <h4 style="color: white;font-size: 15px;font-style: italic;">Location: <%= salon.address %></h4>
-    </div>
-  </a>
+
+<div class="pagination-container">
+  <%= will_paginate @salons %>
+</div>
+
+<% if current_user %>
+  <% @salons.each do |salon| %>
+    <a href="<%= salon_path(salon) %>">
+      <div class="salon" <% if salon.cover_image.attached? %>style="background-image: url('<%= url_for(salon.cover_image) %>'); background-size: cover;" <% end %>>
+        <h3 style="color: white; font-size: 15px; font-style: italic;"><%= salon.name %></h3>
+        <h4 style="color: white; font-size: 15px; font-style: italic;">Location: <%= salon.address %></h4>
+      </div>
+    </a>
+  <% end %>
+
+<% else %>
+  <% if current_barbar && current_barbar.salon.present? %>
+    <% salon = current_barbar.salon %>
+    <a href="<%= salon_path(salon) %>">
+      <div class="salon" <% if salon.cover_image.attached? %>style="background-image: url('<%= url_for(salon.cover_image) %>'); background-size: cover;" <% end %>>
+        <h3 style="color: white; font-size: 15px; font-style: italic;"><%= salon.name %></h3>
+        <h4 style="color: white; font-size: 15px; font-style: italic;">Location: <%= salon.address %></h4>
+      </div>
+    </a>
+  <% else %>
+    <%= "Error: No salon available for the current barber" %>
+  <% end %>
 <% end %>
