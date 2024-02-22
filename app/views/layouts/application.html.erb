@@ -42,14 +42,10 @@
     
   </form>
 </nav>
-
-
-
-    <%= yield %>
-
+    <div id="flash-messages">
       <p class="notice"><%= notice %></p>
-       <p class="alert"><%= alert %></p>
-       <div id="user_nav">
-    
+      <p class="alert"><%= alert %></p>
+    </div>
+    <%= yield %>
   </body>
 </html>

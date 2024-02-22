@@ -1,7 +1,12 @@
 <div class="container-fluid position-relative" style="background-image: url('<%= url_for(@salon.cover_image) %>'); background-size: cover; height: 100vh;">
   <div class="center" style="color: white;">
     <h1>Book your Appointment</h1>
-
+    <body>
+    <% flash.each do |name, msg| %>
+      <%= msg %>
+    <% end %>
+    <%= yield %>
+  </body>
     <%= form_for @appointment, url: salon_appointments_path, method: :post do |form| %>
       <%= form.hidden_field :user_id, value: current_user.id %>
       <%= form.hidden_field :salon_id, value: @salon.id %>

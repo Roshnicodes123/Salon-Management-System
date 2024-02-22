@@ -2,6 +2,13 @@
 
 <h1>Salons</h1>
 
+<%= search_form_for @q do |f| %>
+  <div class="field">
+    <%= f.label :name_or_address_cont, 'Search by Name or Address:' %>
+    <%= f.search_field :name_or_address_cont %>
+  </div>
+<% end %>
+
 <div class="pagination-container">
   <%= will_paginate @salons %>
 </div>

@@ -1,7 +1,8 @@
 class SalonsController < ApplicationController
 
   def index
-    @salons = Salon.paginate(page: params[:page], per_page: 2)
+    @q = Salon.ransack(params[:q])
+    @salons = @q.result(distinct: true).paginate(page: params[:page], per_page: 10)
   end
 
   def show

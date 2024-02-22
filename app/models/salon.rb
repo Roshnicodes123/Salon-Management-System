@@ -14,14 +14,14 @@ class Salon < ApplicationRecord
   devise :database_authenticatable, 
          :recoverable, :rememberable, :validatable
 
-  # def self.ransackable_attributes(auth_object = nil)
-  #   authorizable_ransackable_attributes
-  # end
+  def self.ransackable_attributes(auth_object = nil)
+    authorizable_ransackable_attributes
+  end
 
-  # def self.ransackable_associations(auth_object = nil)
-  #   ["appointments", "barbars", "cover_image_attachment", "cover_image_blob", "services", "time_slots", "users"]
-  # end
-
+  def self.ransackable_associations(auth_object = nil)
+    ["appointments", "barbars", "cover_image_attachment", "cover_image_blob", "services", "time_slots", "users"]
+  end
+  
   def available_time_slots
   
     time_slots.where('start_time > ?', DateTime.now)

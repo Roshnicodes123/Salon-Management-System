@@ -25,6 +25,7 @@ class AppointmentsController < ApplicationController
     if @appointment.save!
       redirect_to salon_appointment_path(@salon, @appointment), notice: 'Appointment booked successfully.'
     else
+      
       render :new
     end
   end
