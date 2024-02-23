@@ -1,6 +1,4 @@
 class Salon < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   has_many :barbars
   has_many :users
   has_many :time_slots, dependent: :destroy

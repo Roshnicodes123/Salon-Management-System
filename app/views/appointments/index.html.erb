@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Appointments List</title>
-  <style>
-    /* Add your CSS styles here */
-  </style>
-</head>
-<body>
+
   <div class="container-fluid position-relative" style="background-image: url('<%= url_for(@salon.cover_image) %>'); background-size: cover; height: 100vh;">
     <div class="center" style="color: white;">
 
@@ -17,7 +9,7 @@
           <tr>
             <th>Barber</th>
             <th>Service</th>
-            <th>Time Slot</th>
+            <th>Time Slot</th>                                                       
             <th>Salon</th>
           </tr>
         </thead>
@@ -41,7 +33,6 @@
                 <% else %>
                   <td>N/A</td>
                 <% end %>
-                <!-- Add more columns as needed -->
               </tr>
             <% end %>
           <% else %>
@@ -63,12 +54,13 @@
                 <% else %>
                   <td>N/A</td>
                 <% end %>
-                <!-- Add more columns as needed -->
               </tr>
             <% end %>
           <% end %>
         </tbody>
       </table>
+          <%= will_paginate @appointments %>
+
     </div>
   </div>
 </body>
