@@ -3,7 +3,7 @@ class Barbar < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   belongs_to :salon
   has_many :appointments
-
+  has_many :time_slots
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
       

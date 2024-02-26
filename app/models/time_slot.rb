@@ -1,5 +1,5 @@
 class TimeSlot < ApplicationRecord
-  belongs_to :salon
+  belongs_to :barbar
 
   has_many :appointments
 

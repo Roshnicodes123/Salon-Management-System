@@ -1,4 +1,6 @@
 class SalonsController < ApplicationController
+  before_action :authenticate_user!
+
 
   def index
     @q = Salon.ransack(params[:q])

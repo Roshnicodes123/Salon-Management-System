@@ -1,5 +1,7 @@
 class AppointmentsController < ApplicationController
   before_action :set_salon, only: %w[new create index show]
+  before_action :set_available_time_slots, only: [:new, :create]
+
 
     # @q = Salon.ransack(params[:q])
     def index
@@ -36,8 +38,13 @@ class AppointmentsController < ApplicationController
 
   def set_available_time_slots
     
-    @salon = Salon.find(params[:salon_id])
-    @available_time_slots = @salon.time_slots.where('start_time > ?', DateTime.now)
+    if params[:appointment].present? && params[:appointment][:selected_date].present?
+      @selected_date = Date.parse(params[:appointment][:selected_date])
+      @available_time_slots = @salon.available_time_slots_for_date(@selected_date)
+    else
+      @selected_date = Date.current
+      @available_time_slots = @salon.available_time_slots_for_date(@selected_date)
+    end
   end
 
   def set_salon
@@ -46,6 +53,6 @@ class AppointmentsController < ApplicationController
   end
 
   def appointment_params
-    params.require(:appointment).permit(:barbar_id, :service_id, :time_slot_id, :user_id, :salon_id)
+    params.require(:appointment).permit(:barbar_id, :service_id, :time_slot_id, :user_id, :salon_id,:selected_date)
   end
 end

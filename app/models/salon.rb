@@ -1,7 +1,7 @@
 class Salon < ApplicationRecord
   has_many :barbars
   has_many :users
-  has_many :time_slots, dependent: :destroy
+  has_many :time_slots, dependent: :destroy, through: :barbars
 
   has_many :services
   has_many :appointments
@@ -20,11 +20,14 @@ class Salon < ApplicationRecord
     ["appointments", "barbars", "cover_image_attachment", "cover_image_blob", "services", "time_slots", "users"]
   end
   
-  def available_time_slots
+  def available_time_slots_for_date(selected_date)
+    selected_date = Date.parse(selected_date.to_s) if selected_date.present?
   
-    time_slots.where('start_time > ?', DateTime.now)
+    start_datetime = selected_date.beginning_of_day
+    end_datetime = selected_date.end_of_day
+  
+    time_slots.where('start_time >= ? AND start_time <= ?', start_datetime, end_datetime)
   end
-
   def create_time_slot
     Rake::Task["salon:generate_time_slots"].invoke(self.id)
     Rake::Task["salon:generate_time_slots"].reenable
