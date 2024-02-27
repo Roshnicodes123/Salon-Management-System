@@ -1,18 +1,20 @@
 class Barbar < ApplicationRecord
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   belongs_to :salon
   has_many :appointments
-  has_many :time_slots
+  has_many :time_slots, dependent: :destroy
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
       
   enum status: {inactive: 0, active: 1}
 
   after_create :confirmation_email
+  around_update :generate_time_slots, if: :account_activated?
+  around_update :remove_time_slots, if: :account_inactivated?
 
   before_save :send_activation_email, if: :account_activated?
   before_save :send_inactivation_email, if: :account_inactivated?
+
 
   scope :active, ->  { where(status:  :active) }
 
@@ -31,9 +33,10 @@ class Barbar < ApplicationRecord
   def send_inactivation_email
     BarbarMailer.account_inactivation_mail(email).deliver_now
   end
-  # private
 
-  def account_activated?  
+  private
+
+  def account_activated?
     status_changed?(from: :inactive, to: :active)
   end
 
@@ -42,5 +45,13 @@ class Barbar < ApplicationRecord
     status_changed?(from: :active, to: :inactive)
   end
 
+  def generate_time_slots
+    yield
+    GenerateTimeSlotsJob.perform_now(self.id)
+  end
 
+  def remove_time_slots
+    yield
+    time_slots.delete_all
+  end
 end

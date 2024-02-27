@@ -7,7 +7,7 @@ class Salon < ApplicationRecord
   has_many :appointments
   has_one_attached :cover_image
 
-  after_create :create_time_slot
+  # after_create :create_time_slot
 
   devise :database_authenticatable, 
          :recoverable, :rememberable, :validatable
@@ -28,11 +28,6 @@ class Salon < ApplicationRecord
   
     time_slots.where('start_time >= ? AND start_time <= ?', start_datetime, end_datetime)
   end
-  def create_time_slot
-    Rake::Task["salon:generate_time_slots"].invoke(self.id)
-    Rake::Task["salon:generate_time_slots"].reenable
-  end
-  
   
   def available_seats(time_slot)
     seat_capacity - appointments.where(time_slot: time_slot).count
