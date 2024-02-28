@@ -1,7 +1,3 @@
-document.addEventListener('turbo:load', () => {
-    flatpickr('.date-picker', {
-      dateFormat: 'Y-m-d',
-      minDate: 'today',
-    });
-  });
-  
+import "jquery"
+import "jquery_ujs"
+import "./appointment.js"

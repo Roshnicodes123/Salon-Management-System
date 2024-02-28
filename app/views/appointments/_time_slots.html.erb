@@ -1,0 +1,4 @@
+<!-- app/views/appointments/_time_slots.html.erb -->
+<% @available_time_slots.each do |time_slot| %>
+  <div><%= time_slot.formatted_start_time %></div>
+<% end %>

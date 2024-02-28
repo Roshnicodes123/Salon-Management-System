@@ -18,7 +18,9 @@ Rails.application.routes.draw do
   # resources :home
   root to: "salons#index"
   resources :salons do
-    resources :appointments
+    resources :appointments do
+      get :get_appointment_slots, on: :collection
+    end
   end
 
 

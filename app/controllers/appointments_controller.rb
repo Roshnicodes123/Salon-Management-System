@@ -1,23 +1,17 @@
 class AppointmentsController < ApplicationController
-  before_action :set_salon, only: %w[new create index show]
+  before_action :set_salon, only: %i[new create index show]
   before_action :set_available_time_slots, only: [:new, :create]
-
-
-    # @q = Salon.ransack(params[:q])
-    def index
-      if current_user
-        @appointments = current_user.appointments.paginate(page: params[:page], per_page: 10)
-      else
-        @appointments = current_barbar.appointments.paginate(page: params[:page], per_page: 10)
-      end
+  
+  def index
+    if current_user
+      @appointments = current_user.appointments.paginate(page: params[:page], per_page: 10)
+    else
+      @appointments = current_barbar.appointments.paginate(page: params[:page], per_page: 10)
     end
-    
-
+  end
+  
   def new
     @appointment = Appointment.new
-    # @barbars = @salon.barbars
-    # @services = @salon.services
-    # @available_time_slots = @salon.available_time_slots
   end
 
   def create
@@ -34,10 +28,23 @@ class AppointmentsController < ApplicationController
     @salon = @appointment.salon 
   end
 
+  def get_appointment_slots
+    
+    selected_date = params[:date]
+    barbar_id = params[:barbar_id]
+    
+    if selected_date.present?
+      date = Date.parse(selected_date)
+      available_time_slots = @salon.available_time_slots_for_date(date, barbar_id)
+      render json: { time_slots: available_time_slots }
+    else
+      render json: { error: 'Date is missing' }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def set_available_time_slots
-    
     if params[:appointment].present? && params[:appointment][:selected_date].present?
       @selected_date = Date.parse(params[:appointment][:selected_date])
       @available_time_slots = @salon.available_time_slots_for_date(@selected_date)
