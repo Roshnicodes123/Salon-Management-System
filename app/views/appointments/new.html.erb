@@ -8,25 +8,26 @@
       </div>
     <% end %>
     <h1>Book your Appointment</h1>
-    <%= form_with model: [@salon, @appointment], local: true, data: { turbo: false }  do |form| %>
+    <%= form_with model: [@salon, @appointment], local: true, data: { turbo: false } do |form| %>
       <%= form.hidden_field :user_id, value: current_user.id %>
       <%= form.hidden_field :salon_id, value: @salon.id %>
 
       <%= form.label :barbar_id, 'Select Barber:' %>
-      <%= form.collection_select :barbar_id, @salon.barbars.active, :id, :username, prompt: 'Choose a barber' %>
+      <%= form.collection_select :barbar_id, @salon.barbars.active, :id, :username, prompt: 'Choose a barber', class: 'barbar-selector', id: 'appointment_barbar_id' %>
       <br>
 
       <%= form.label :service_id, 'Select Service:' %>
       <%= form.collection_select :service_id, @salon.services, :id, :name, prompt: 'Choose a service' %>
       <br>
 
-      <%= form.label :selected_date, 'Select Date:' %>
-      <%= form.date_field :selected_date, class: 'date-picker', id: 'slot_date_picker' %>
+      <%= form.label :date, 'Select Date:' %>
+      <%= form.date_field :date, class: 'date-picker', id: 'slot_date_picker' %>
       <br>
+       
+      <div class="time-slots" id="time-slot-container">
 
-      <%= form.label :time_slot_id, 'Select Time Slot:' %>
-      <%= form.collection_select :time_slot_id, @available_time_slots, :id, :formatted_start_time, {}, { prompt: 'Choose a time slot' } %>
-      <br>
+      </div>
+        <br>
 
       <%= form.submit 'Book Appointment' %>
     <% end %>

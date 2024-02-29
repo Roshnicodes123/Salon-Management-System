@@ -11,8 +11,7 @@ class Appointment < ApplicationRecord
   validate :validate_time_slot_availability
 
 # validates :time_slot, uniqueness: { scope: :user_id }
-attr_accessor :selected_date
-
+attr_accessor :date  
   private
   def validate_time_slot_availability
     if time_slot.present? && time_slot.appointments.count >= 10

@@ -20,14 +20,7 @@ class Salon < ApplicationRecord
     ["appointments", "barbars", "cover_image_attachment", "cover_image_blob", "services", "time_slots", "users"]
   end
   
-  def available_time_slots_for_date(selected_date)
-    selected_date = Date.parse(selected_date.to_s) if selected_date.present?
   
-    start_datetime = selected_date.beginning_of_day
-    end_datetime = selected_date.end_of_day
-  
-    time_slots.where('start_time >= ? AND start_time <= ?', start_datetime, end_datetime)
-  end
   
   def available_seats(time_slot)
     seat_capacity - appointments.where(time_slot: time_slot).count

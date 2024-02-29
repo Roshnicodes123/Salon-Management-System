@@ -1,6 +1,6 @@
 class AppointmentsController < ApplicationController
-  before_action :set_salon, only: %i[new create index show]
-  before_action :set_available_time_slots, only: [:new, :create]
+  before_action :set_salon, only: %i[new create index show get_appointment_slots]
+  # before_action :set_available_time_slots, only: [:new, :create]
   
   def index
     if current_user
@@ -14,8 +14,9 @@ class AppointmentsController < ApplicationController
     @appointment = Appointment.new
   end
 
-  def create
+  def create  
     @appointment = Appointment.new(appointment_params)
+    
     if @appointment.save
       redirect_to salon_appointment_path(@salon, @appointment), alert: 'Appointment booked successfully.'
     else
@@ -29,37 +30,37 @@ class AppointmentsController < ApplicationController
   end
 
   def get_appointment_slots
-    
-    selected_date = params[:date]
+    debugger
+    date = params[:date]
     barbar_id = params[:barbar_id]
-    
-    if selected_date.present?
-      date = Date.parse(selected_date)
-      available_time_slots = @salon.available_time_slots_for_date(date, barbar_id)
-      render json: { time_slots: available_time_slots }
-    else
-      render json: { error: 'Date is missing' }, status: :unprocessable_entity
+    return render json: { data: "No date selected" } unless date.present?
+
+    @salon = Salon.find(params[:salon_id])
+    @time_slots = @salon.time_slots
+    if barbar_id.present?
+      @time_slots = @time_slots.where(barbar_id: barbar_id)
     end
+
+    if date.present?
+      @time_slots = @time_slots.where("DATE(start_time) = ? ", date)
+    end
+    data = @time_slots.map(&:start_time).uniq
+    render json: { data: data }
+  rescue => error
+    render json: { data: error }
   end
 
   private
 
-  def set_available_time_slots
-    if params[:appointment].present? && params[:appointment][:selected_date].present?
-      @selected_date = Date.parse(params[:appointment][:selected_date])
-      @available_time_slots = @salon.available_time_slots_for_date(@selected_date)
-    else
-      @selected_date = Date.current
-      @available_time_slots = @salon.available_time_slots_for_date(@selected_date)
-    end
-  end
-
+ 
   def set_salon
     @salon = Salon.find_by(id: params[:salon_id])
     redirect_to root_path unless @salon.present?
   end
 
   def appointment_params
-    params.require(:appointment).permit(:barbar_id, :service_id, :time_slot_id, :user_id, :salon_id,:selected_date)
+    params.require(:appointment).permit(:barbar_id, :service_id, :time_slot_id, :user_id, :salon_id,:date)
   end
+  
+  
 end
