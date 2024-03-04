@@ -11,6 +11,7 @@
     <%= form_with model: [@salon, @appointment], local: true, data: { turbo: false } do |form| %>
       <%= form.hidden_field :user_id, value: current_user.id %>
       <%= form.hidden_field :salon_id, value: @salon.id %>
+      <%= form.hidden_field :time_slot_id, id: 'appointment_time_slot_id' %>
 
       <%= form.label :barbar_id, 'Select Barber:' %>
       <%= form.collection_select :barbar_id, @salon.barbars.active, :id, :username, prompt: 'Choose a barber', class: 'barbar-selector', id: 'appointment_barbar_id' %>
@@ -24,10 +25,8 @@
       <%= form.date_field :date, class: 'date-picker', id: 'slot_date_picker' %>
       <br>
        
-      <div class="time-slots" id="time-slot-container">
-
-      </div>
-        <br>
+      <div class="time-slots" id="time-slot-container"></div>
+      <br>
 
       <%= form.submit 'Book Appointment' %>
     <% end %>
