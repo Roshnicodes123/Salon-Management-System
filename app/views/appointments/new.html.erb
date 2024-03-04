@@ -22,7 +22,8 @@
       <br>
 
       <%= form.label :date, 'Select Date:' %>
-      <%= form.date_field :date, class: 'date-picker', id: 'slot_date_picker' %>
+      <%= form.date_field :date, class: 'date-picker', id: 'slot_date_picker', value: Date.current, data: { dateFormat: 'yyyy-mm-dd' } %>
+
       <br>
        
       <div class="time-slots" id="time-slot-container"></div>
