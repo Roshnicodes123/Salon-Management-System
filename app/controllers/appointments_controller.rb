@@ -17,13 +17,12 @@ class AppointmentsController < ApplicationController
   def create
     
     @appointment = Appointment.new(appointment_params)
-  
-    @appointment.date = Date.parse(params[:appointment][:date])
-  
+    puts "Time Slot ID: #{params[:appointment][:time_slot_id]}"
+
     if @appointment.save
       redirect_to salon_appointment_path(@salon, @appointment), alert: 'Appointment booked successfully.'
     else
-      puts @appointment.errors.full_messages # Add this line to print errors to the console
+      puts @appointment.errors.full_messages # Add this line to print errors to console
       render :new
     end
   end
@@ -40,7 +39,7 @@ class AppointmentsController < ApplicationController
     barbar_id = params[:barbar_id]
     return render json: { data: "No date selected" } unless date.present?
 
-    @salon = Salon.find(params[:salon_id])  
+    @salon = Salon.find(params[:salon_id])
     @time_slots = @salon.time_slots
     if barbar_id.present?
       @time_slots = @time_slots.where(barbar_id: barbar_id)

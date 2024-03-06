@@ -1,16 +1,11 @@
 class TimeSlot < ApplicationRecord
   belongs_to :barbar
-  belongs_to :salon
 
-  has_many :appointments, dependent: :destroy
-  validate :validate_seat_capacity, on: :create
+  has_many :appointments
 
   def formatted_start_time
     start_time.strftime("%Y-%m-%d %H:%M")
   end
-  private
+  # validates :available_seats, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
-  def validate_seat_capacity
-    errors.add(:base, 'Seat capacity for this time slot has been reached.') if appointments.count >= salon.seat_capacity
-  end
 end
