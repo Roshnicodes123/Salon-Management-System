@@ -1,5 +1,5 @@
 
-  <div class="container-fluid position-relative" style="background-image: url('<%= url_for(@salon.cover_image) %>'); background-size: cover; height: 100vh;">
+<div class="container-fluid position-relative" style="background-image: url('<%= url_for(@salon.cover_image) %>'); background-size: cover; height: 100vh;">
     <div class="center" style="color: white;">
 
       <h1>Appointments List</h1>
@@ -57,9 +57,13 @@
               </tr>
             <% end %>
           <% end %>
+
         </tbody>
       </table>
+            <%= link_to "Show Services", salon_path(@salon) %>
+
           <%= will_paginate @appointments %>
+
 
     </div>
   </div>

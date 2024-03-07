@@ -10,7 +10,13 @@ $(document).ready(function () {
       data: { 'date': selectedDate, 'barbar_id': barbarId },
       success: function (response) {
         console.log(response);
-        updateTimeSlots(response.data);
+        if(response && response.data){
+          updateTimeSlots(response.data);
+        }
+        else if(response && response.error) {
+
+        }
+
       },
       error: function (xhr, status, error) {
         console.error(error);
@@ -28,8 +34,8 @@ $(document).ready(function () {
       timeSlots.forEach(function (slot, index) {
         console.log("Index:", index, "Value:", slot);
 
-        var formattedStartTime = new Date(slot[1]).getHours();
-        var timeSlotHtml = `<div class="slot" data-id="${slot[0]}" data-start-time="${slot[1]}">
+        var formattedStartTime = new Date(slot).getHours();
+        var timeSlotHtml = `<div class="slot" data-start-time="${slot}">
                             ${formattedStartTime}
                             </div>`;
         timeSlotContainer.append(timeSlotHtml);
@@ -40,9 +46,9 @@ $(document).ready(function () {
         $('.slot').css('background-color', '');
         selectedSlot.css('background-color', 'yellow');
 
-        var selectedSlotId = selectedSlot.data('id');
-        $('#appointment_time_slot_id').val(selectedSlotId); 
-        console.log('Selected Time Slot ID:', selectedSlotId);
+        var selectedSlotTime = selectedSlot.data('start-time');
+        $('#appointment_time_slot').val(selectedSlotTime); 
+        console.log('Selected Time Slot ID:', selectedSlotTime);
       });
     } else {
       console.error("Invalid timeSlots data:", timeSlots);

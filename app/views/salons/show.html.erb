@@ -2,36 +2,56 @@
 
   <div class="row justify-content-center align-items-start h-100">
 
-    <div>
+    <div class="container">
       <h2 class="text-white">Our Services</h2>
-      <ul class="list-group text-white">
+      <div class="row">
         <% @salon.services.each do |service| %>
-          <li class="list-group-item bg-transparent text-white"><%= service.name %></li>
-        <% end %>
-      </ul>
-    </div>
-
-    <div>
-      <ul class="list-group text-white text-end">
-        <h2><%= @salon.name %></h2>
-        <p> Address: <%= @salon.address %> </p>
-       <p> Start Time: <%= @salon.start_time %> <p>
-        <p> End Time: <%= @salon.end_time %> </p>
-      </ul>
-    </div>
-
-      <div class="row mt-4">
-        <div class="col text-center">
-        <%if current_user%>
-          <%= link_to "Book Appointment", new_salon_appointment_path(salon_id: @salon.id), class: "btn btn-warning" %>
-        <% else %>
-        <%= link_to " Appointments", salon_appointments_path(salon_id: @salon.id), class: "btn btn-warning" %>
-
-        <% end %>
-
+          <div class="col-md-3 mb-3">
+            <div class="card border border-primary rounded">
+              <div class="row">
+                <% if service.image.attached? %>
+                  <div class="col-md-6 card-image" style="background-image: url('<%= url_for(service.image) %>'); background-size: cover; height: 200px; border-radius: 15px;"></div>
+                <% end %>
+                <div class="col-md-6">
+                  <div class="card-body">
+                    <h5 class="card-title text-primary"><%= service.name %></h5>
+                    <p class="card-text text-muted">Description: <%= service.description %></p>
+<p class="card-text text-success">Price: <%= number_to_currency(service.price, unit: '₹') %></p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+        <% end %>
       </div>
     </div>
+    
+<
+
+    <footer class="container text-white mt-4 transparent-footer position-absolute bottom-0 start-50 translate-middle-x">
+  <div class="row">
+    <div class="col-md-6 text-start">
+      <h2><%= @salon.name %></h2>
+      <p> Address: <%= @salon.address %> </p>
+    </div>
+    <div class="col-md-6 text-end">
+       <p>Open: <%= @salon.start_time.strftime('%H:%M') %></p>
+      <p>Close: <%= @salon.end_time.strftime('%H:%M') %></p>
+    </div>
+  </div>
+</footer>
+
+    <div class="row mt-4">
+      <div class="col text-center">
+        <% if current_user %>
+          <%= link_to "Book Appointment", new_salon_appointment_path(salon_id: @salon.id), class: "btn btn-warning" %>
+          <%= link_to "Show Appointments", salon_appointments_path(@salon), class: "btn btn-primary" %>
+        <% else %>
+          <%= link_to " Appointments", salon_appointments_path(salon_id: @salon.id), class: "btn btn-warning" %>
+        <% end %>
+      </div>
+    </div>
+    
 
   </div>
 </div>

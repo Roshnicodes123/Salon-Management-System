@@ -2,7 +2,7 @@ ActiveAdmin.register Service do
   # menu priority: 4
   actions :all
 
-  permit_params  :name,:description, :price
+  permit_params  :name,:description, :price, :image
 
   index do
     selectable_column
@@ -13,12 +13,15 @@ ActiveAdmin.register Service do
     # column :sign_in_count
     column :description
     column :price
+    column :image, as: :file
+
     actions
   end
 
   filter :name
   filter :description
   filter :price
+
   
 
   form do |f|
@@ -26,6 +29,8 @@ ActiveAdmin.register Service do
       f.input :name
       f.input :description 
       f.input :price
+      f.input :image, as: :file
+
     
     end
     

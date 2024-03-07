@@ -1,0 +1,150 @@
+diff --git a/app/controllers/appointments_controller.rb b/app/controllers/appointments_controller.rb
+index 4a99784..eed3a89 100644
+--- a/app/controllers/appointments_controller.rb
++++ b/app/controllers/appointments_controller.rb
+@@ -17,12 +17,13 @@ class AppointmentsController < ApplicationController
+   def create
+     
+     @appointment = Appointment.new(appointment_params)
+-    puts "Time Slot ID: #{params[:appointment][:time_slot_id]}"
+-
++  
++    @appointment.date = Date.parse(params[:appointment][:date])
++  
+     if @appointment.save
+       redirect_to salon_appointment_path(@salon, @appointment), alert: 'Appointment booked successfully.'
+     else
+-      puts @appointment.errors.full_messages # Add this line to print errors to console
++      puts @appointment.errors.full_messages # Add this line to print errors to the console
+       render :new
+     end
+   end
+@@ -39,7 +40,7 @@ class AppointmentsController < ApplicationController
+     barbar_id = params[:barbar_id]
+     return render json: { data: "No date selected" } unless date.present?
+ 
+-    @salon = Salon.find(params[:salon_id])
++    @salon = Salon.find(params[:salon_id])  
+     @time_slots = @salon.time_slots
+     if barbar_id.present?
+       @time_slots = @time_slots.where(barbar_id: barbar_id)
+diff --git a/app/models/appointment.rb b/app/models/appointment.rb
+index 803508b..b8e3ddd 100644
+--- a/app/models/appointment.rb
++++ b/app/models/appointment.rb
+@@ -1,29 +1,24 @@
+-class Appointment < ApplicationRecord
+-  belongs_to :user
+-  belongs_to :barbar
+-  belongs_to :salon
+-  belongs_to :service
+-  belongs_to :time_slot
++  class Appointment < ApplicationRecord
++    belongs_to :user
++    belongs_to :barbar
++    belongs_to :salon
++    belongs_to :service
++    belongs_to :time_slot
+ 
+-  validates :time_slot, presence: true
+-  validate :validate_seats_availability
+-  
+-  validate :validate_time_slot_availability
++    validates :time_slot, presence: true, uniqueness: { scope: :barbar_id }
++    validate :validate_seats_availability
++    
++    validate :validate_time_slot_availability
+ 
+-# validates :time_slot, uniqueness: { scope: :user_id }
+-attr_accessor :date  
+-  private
+-  def validate_time_slot_availability
+-    if time_slot.present? && time_slot.appointments.count >= 10
+-      errors.add(:base, 'This time slot is fully booked. Please choose another time slot.')
++  attr_accessor :date  
++    private
++    def validate_time_slot_availability
++      errors.add(:base, 'This time slot is fully booked. Please choose another time slot.') if time_slot.present? && salon.available_seats(time_slot).zero?
+     end
+-  end
+-
+-  def validate_seats_availability
+-    return unless time_slot.present?
++    
+ 
+-    available_seats = salon.available_seats(time_slot)
+-
+-    errors.add(:base, 'No available seats for the selected time slot.') if available_seats.zero?
++    def validate_seats_availability
++      return unless time_slot.present?
++      errors.add(:base, 'No available seats for the selected time slot.') if salon.available_seats(time_slot).zero?
++    end
+   end
+-end
+diff --git a/app/models/salon.rb b/app/models/salon.rb
+index a5fac5e..a32dcf6 100644
+--- a/app/models/salon.rb
++++ b/app/models/salon.rb
+@@ -22,8 +22,10 @@ class Salon < ApplicationRecord
+   
+   
+   
+-  def available_seats(time_slot)
+-    seat_capacity - appointments.where(time_slot: time_slot).count
++ def available_seats(time_slot)
++    total_capacity = seat_capacity
++    booked_appointments = appointments.where(time_slot: time_slot).count
++    available_seats = total_capacity - booked_appointments
++    [available_seats, 0].max
+   end
+- 
+ end
+diff --git a/app/models/time_slot.rb b/app/models/time_slot.rb
+index fce0dd6..bf35f55 100644
+--- a/app/models/time_slot.rb
++++ b/app/models/time_slot.rb
+@@ -1,11 +1,16 @@
+ class TimeSlot < ApplicationRecord
+   belongs_to :barbar
++  belongs_to :salon
+ 
+-  has_many :appointments
++  has_many :appointments, dependent: :destroy
++  validate :validate_seat_capacity, on: :create
+ 
+   def formatted_start_time
+     start_time.strftime("%Y-%m-%d %H:%M")
+   end
+-  # validates :available_seats, presence: true, numericality: { greater_than_or_equal_to: 0 }
++  private
+ 
++  def validate_seat_capacity
++    errors.add(:base, 'Seat capacity for this time slot has been reached.') if appointments.count >= salon.seat_capacity
++  end
+ end
+diff --git a/app/views/appointments/new.html.erb b/app/views/appointments/new.html.erb
+index 36e0af4..5043352 100644
+--- a/app/views/appointments/new.html.erb
++++ b/app/views/appointments/new.html.erb
+@@ -22,7 +22,8 @@
+       <br>
+ 
+       <%= form.label :date, 'Select Date:' %>
+-      <%= form.date_field :date, class: 'date-picker', id: 'slot_date_picker' %>
++      <%= form.date_field :date, class: 'date-picker', id: 'slot_date_picker', value: Date.current, data: { dateFormat: 'yyyy-mm-dd' } %>
++
+       <br>
+        
+       <div class="time-slots" id="time-slot-container"></div>
+diff --git a/db/schema.rb b/db/schema.rb
+index f148564..d4ede9c 100644
+--- a/db/schema.rb
++++ b/db/schema.rb
+@@ -11,7 +11,6 @@
+ # It's strongly recommended that you check this file into your version control system.
+ 
+ ActiveRecord::Schema[7.1].define(version: 2024_02_29_104118) do
+-  # These are extensions that must be enabled in order to support this database
+   enable_extension "plpgsql"
+ 
+   create_table "active_storage_attachments", force: :cascade do |t|

@@ -7,3 +7,20 @@
     padding: 10px;
   }
 }
+.bottom-right-corner {
+  position: fixed;
+  right: 20px; /* Adjust this value to change the distance from the right */
+  color: #fff; /* Change this to the desired text color */
+  text-decoration: none;
+}
+
+.bottom-right-corner:hover {
+  background-color: #0056b3; /* Change this to the desired background color on hover */
+}
+.transparent-footer {
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust the last value (alpha) to control transparency */
+  padding: 20px; /* Adjust padding as needed */
+}
+.custom-card-body {
+  font-family: 'Tangerine', cursive;
+}

@@ -1,4 +1,3 @@
-<div class="container">
 <div class="container-fluid position-relative" style="background-image: url('<%= url_for(@salon.cover_image) %>'); background-size: cover; height: 100vh;">
 <div class="center" style="color: white;">
 
@@ -9,8 +8,10 @@
   <p><strong>Salon:</strong> <%= @appointment.salon.name %></p>
 
   <div>
-    <%= link_to "Back to Appointments", salon_appointments_path(@appointment.salon) %>
+     <%= link_to "Back to Appointments", new_salon_appointment_path(@appointment.salon) %>
+
+<%= link_to "Show Appointments", salon_appointments_path(@appointment.salon), class: "bottom-right-corner" %>
+
   </div>
-</div>
 </div>
 </div>

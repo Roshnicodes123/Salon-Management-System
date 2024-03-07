@@ -10,7 +10,7 @@
     
     validate :validate_time_slot_availability
 
-  attr_accessor :date  
+  # attr_accessor :date  
     private
     def validate_time_slot_availability
       errors.add(:base, 'This time slot is fully booked. Please choose another time slot.') if time_slot.present? && salon.available_seats(time_slot).zero?

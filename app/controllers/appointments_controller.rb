@@ -1,12 +1,14 @@
 class AppointmentsController < ApplicationController
   before_action :set_salon, only: %i[new create index show get_appointment_slots]
   # before_action :set_available_time_slots, only: [:new, :create]
-  
+  before_action :fetch_appointment_slot, only: :create
+
   def index
+    # debugger
     if current_user
-      @appointments = current_user.appointments.paginate(page: params[:page], per_page: 10)
+      @appointments = current_user.appointments.paginate(page: params[:page], per_page: 2)
     else
-      @appointments = current_barbar.appointments.paginate(page: params[:page], per_page: 10)
+      @appointments = current_barbar.appointments.paginate(page: params[:page], per_page: 2)
     end
   end
   
@@ -19,7 +21,7 @@ class AppointmentsController < ApplicationController
     @appointment = Appointment.new(appointment_params)
   
     @appointment.date = Date.parse(params[:appointment][:date])
-  
+    @appointment.time_slot = @time_slot
     if @appointment.save
       redirect_to salon_appointment_path(@salon, @appointment), alert: 'Appointment booked successfully.'
     else
@@ -38,7 +40,7 @@ class AppointmentsController < ApplicationController
     
     date = params[:date]
     barbar_id = params[:barbar_id]
-    return render json: { data: "No date selected" } unless date.present?
+    return render json: { error: "No date selected" } unless date.present?
 
     @salon = Salon.find(params[:salon_id])  
     @time_slots = @salon.time_slots
@@ -50,13 +52,24 @@ class AppointmentsController < ApplicationController
       @time_slots = @time_slots.where("DATE(start_time) = ? ", date)
     end
     
-    data = @time_slots.pluck(:id, :start_time)
+    data = @time_slots.pluck(:start_time).uniq
     render json: { data: data }
   rescue => error
-    render json: { data: error }
+    render json: { error: error }
   end
 
   private
+
+  def fetch_appointment_slot
+    if params[:appointment][:barbar_id].present?
+      @barbar = Barbar.find_by(id: params[:appointment][:barbar_id])
+      @time_slot = @barbar.time_slots.where(start_time: params[:appointment][:time_slot]).first
+    else
+      @time_slot = TimeSlot.where(start_time: params[:appointment][:time_slot]).first
+    end
+
+    render json: { error: 'Time Slot not available' } unless @time_slot.present?
+  end
 
  
   def set_salon
@@ -65,7 +78,7 @@ class AppointmentsController < ApplicationController
   end
 
   def appointment_params
-    params.require(:appointment).permit(:barbar_id, :service_id, :time_slot_id, :user_id, :salon_id,:date)
+    params.require(:appointment).permit(:barbar_id, :service_id, :user_id, :salon_id,:date)
   end
   
   
