@@ -80,4 +80,6 @@ gem 'jquery-rails'
 # Gemfile
 gem 'whenever', require: false
 gem 'ransack'
- gem 'will_paginate'
+gem 'will_paginate'
+gem 'stripe'
+ 

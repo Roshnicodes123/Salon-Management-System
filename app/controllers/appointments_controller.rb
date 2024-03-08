@@ -23,7 +23,7 @@ class AppointmentsController < ApplicationController
     @appointment.date = Date.parse(params[:appointment][:date])
     @appointment.time_slot = @time_slot
     if @appointment.save
-      redirect_to salon_appointment_path(@salon, @appointment), alert: 'Appointment booked successfully.'
+      redirect_to new_salon_appointment_payment_path(@salon, @appointment)
     else
       puts @appointment.errors.full_messages # Add this line to print errors to the console
       render :new

@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   root to: "salons#index"
   resources :salons do
     resources :appointments do
+      resource :payment, only: [:new, :create]
+
       get :get_appointment_slots, on: :collection
     end
   end

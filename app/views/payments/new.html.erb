@@ -1,0 +1,16 @@
+
+<%= form_for [@salon, @appointment], url: salon_appointment_payment_path(@salon, @appointment), method: :post do |f| %>
+  <div class="form-row">
+    <label for="card-element">
+      Credit or debit card
+    </label>
+    <div id="card-element">
+    </div>
+
+    <div id="card-errors" role="alert"></div>
+  </div>
+
+  <%= hidden_field_tag :source, nil, id: 'stripe-source' %>
+  <%= submit_tag 'Submit Payment' %>
+<% end %>
+    <div id="card-element">
