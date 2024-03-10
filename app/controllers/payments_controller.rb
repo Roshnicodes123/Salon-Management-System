@@ -12,8 +12,9 @@ class PaymentsController < ApplicationController
         debugger
       charge = Stripe::Charge.create({
         amount: 1000, 
-        currency: 'usd',
-        source: params[:source],
+        currency: 'inr',
+        # source: params[:source],
+        source: "tok_visa",
         description: 'Appointment Payment',
       })
   
@@ -28,6 +29,7 @@ class PaymentsController < ApplicationController
       flash[:error] = e.message
       render :new
     end
+    
     def set_salon_and_appointment
         @salon = Salon.find(params[:salon_id])
         @appointment = @salon.appointments.find(params[:appointment_id])
