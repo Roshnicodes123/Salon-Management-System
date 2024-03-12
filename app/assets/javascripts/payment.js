@@ -1,4 +1,3 @@
-// app/assets/javascripts/payment.js
 
 document.addEventListener('turbolinks:load', function () {
     var stripe = Stripe('<%= Rails.application.credentials.dig(:stripe, :publishable_key) %>');

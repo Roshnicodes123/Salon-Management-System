@@ -19,9 +19,12 @@ Rails.application.routes.draw do
   root to: "salons#index"
   resources :salons do
     resources :appointments do
-      resource :payment, only: [:new, :create]
+      # resource :stripe_session, only: [:new, :create]
 
       get :get_appointment_slots, on: :collection
+    end
+    resources :stripe, only: [] do
+      post :create_session, on: :collection
     end
   end
 

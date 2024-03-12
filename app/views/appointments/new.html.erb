@@ -8,7 +8,7 @@
       </div>
     <% end %>
     <h1>Book your Appointment</h1>
-    <%= form_with model: [@salon, @appointment], local: true, data: { turbo: false } do |form| %>
+    <%= form_with( url: create_session_salon_stripe_index_path(@salon), method: :post,validate: true) do |form| %>
       <%= form.hidden_field :user_id, value: current_user.id %>
       <%= form.hidden_field :salon_id, value: @salon.id %>
       <%= form.hidden_field :time_slot, id: 'appointment_time_slot' %>
