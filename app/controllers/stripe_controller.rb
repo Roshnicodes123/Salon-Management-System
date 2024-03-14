@@ -11,7 +11,7 @@ class StripeController < ApplicationController
     service_name = service.name
 
     session = Stripe::Checkout::Session.create({
-      success_url: 'http://127.0.0.1:3000/salons/4/appointments',
+      success_url: 'http://127.0.0.1:3000/salons/4/appointments', 
       cancel_url: 'https://example.com/cancel',
       payment_method_types: ['card'],
       line_items: [
@@ -27,14 +27,16 @@ class StripeController < ApplicationController
         },
       ],
       mode: 'payment',
+      metadata: {
+        appointment_id: @appointment.id,
+        service_id: params[:service_id],
+        salon_id: @salon.id,
+        barbar_id: params[:barbar_id],
+        date: params[:date]
+      }
     })
 
-    if @appointment.save
-      redirect_to session.url, allow_other_host: true
-    else
-      flash[:error] = 'Failed to create appointment'
-      render :new
-    end
+    redirect_to session.url, allow_other_host: true
   rescue Stripe::CardError => e
     flash[:error] = e.message
     render :new
@@ -47,13 +49,14 @@ class StripeController < ApplicationController
     @appointment = Appointment.new(
       user_id: params[:user_id],
       barbar_id: params[:barbar_id],
-      salon: @salon,
+      salon: @salon,  
       service_id: params[:service_id],
       date: Date.parse(params[:date]),
       time_slot: @time_slot
     )
 
     unless @appointment.valid?
+      puts "Appointment is not valid: #{@appointment.errors}"
       render 'appointments/new'
     end
   end
@@ -67,6 +70,7 @@ class StripeController < ApplicationController
     end
 
     unless @time_slot.present?
+      puts "Time slot is not available"
       @appointment = Appointment.new
       @appointment.errors.add(:base, 'Slot unavailable')
       render 'appointments/new'

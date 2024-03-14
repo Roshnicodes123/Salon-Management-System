@@ -24,5 +24,6 @@ module SalonManagementSystem
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    config.hosts << "8469-60-254-111-210.ngrok-free.app"
   end
 end
