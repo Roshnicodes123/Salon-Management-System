@@ -4,7 +4,6 @@ class AppointmentsController < ApplicationController
   before_action :fetch_appointment_slot, only: :create
 
   def index
-    # debugger
     if current_user
       @appointments = current_user.appointments.paginate(page: params[:page], per_page: 2)
     else
@@ -19,7 +18,7 @@ class AppointmentsController < ApplicationController
   def create
     
     @appointment = Appointment.new(appointment_params)
-    debugger
+    
   
     @appointment.date = Date.parse(params[:appointment][:date])
     @appointment.time_slot = @time_slot
