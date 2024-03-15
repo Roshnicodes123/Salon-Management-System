@@ -1,7 +1,8 @@
 class StripeWebhooksController < ApplicationController
     protect_from_forgery
-  
+
     def payment_success
+       
       payload = request.body.read
       sig_header = request.env['HTTP_STRIPE_SIGNATURE']
       event = nil
@@ -23,8 +24,8 @@ class StripeWebhooksController < ApplicationController
       case event.type
         
       when 'checkout.session.completed'
-        session = event.data.object
-        debugger
+        # session = event.data.object      
+
         create_apppointment(event)
       else
         puts "Unhandled event type: #{event.type}"
@@ -34,26 +35,32 @@ class StripeWebhooksController < ApplicationController
     private
   
     def create_apppointment(event)
-      debugger
       session = event.data.object
       metadata = session.metadata
-
-    
-    appointment_id = metadata['appointment_id']
-    service_id = metadata['service_id']
-    salon_id = metadata['salon_id']
-    barbar_id = metadata['barbar_id']
-    date = metadata['date']
-      @appointment = Appointment.new(appointment_id: appointment_id,
-      service_id: service_id,
-      salon_id: salon_id,
-      barbar_id: barbar_id,
-      date: date,)
-      debugger
+      
+      appointment_id = metadata['appointment_id']
+      service_id = metadata['service_id']
+      salon_id = metadata['salon_id']
+      barbar_id = metadata['barbar_id']
+      user_id = metadata['user_id']
+      time_slot = metadata['time_slot']
+      
+      fetch_appointment_slot(time_slot, barbar_id)
+      @appointment = Appointment.new(service_id: service_id, salon_id: salon_id, barbar_id: barbar_id, user_id: user_id)
+      @appointment.time_slot = @time_slot
       if @appointment.save
         head :ok
       else
         head :unprocessable_entity
+      end
+    end
+
+    def fetch_appointment_slot(time_slot, barbar_id)
+      if barbar_id.present?
+        @barbar = Barbar.find_by(id: barbar_id)
+        @time_slot = @barbar.time_slots.where(start_time:time_slot).first
+      else
+        @time_slot = TimeSlot.where(start_time:time_slot).first
       end
     end
   end

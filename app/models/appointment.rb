@@ -6,19 +6,19 @@
     belongs_to :time_slot
 
     validates :time_slot, presence: true, uniqueness: { scope: :barbar_id }
-    validate :validate_seats_availability
+    # validate :validate_seats_availability
     
-    validate :validate_time_slot_availability
+    # validate :validate_time_slot_availability
 
   # attr_accessor :date  
     private
-    def validate_time_slot_availability
-      errors.add(:base, 'This time slot is fully booked. Please choose another time slot.') if time_slot.present? && salon.available_seats(time_slot).zero?
-    end
+    # def validate_time_slot_availability
+    #   errors.add(:base, 'This time slot is fully booked. Please choose another time slot.') if time_slot.present? 
+    # end
     
 
-    def validate_seats_availability
-      return unless time_slot.present?
-      errors.add(:base, 'No available seats for the selected time slot.') if salon.available_seats(time_slot).zero?
-    end
+    # def validate_seats_availability
+    #   return unless time_slot.present?
+    #   errors.add(:base, 'No available seats for the selected time slot.') if salon.available_seats(time_slot).zero?
+    # end
   end

@@ -28,11 +28,13 @@ class StripeController < ApplicationController
       ],
       mode: 'payment',
       metadata: {
+        user_id: params[:user_id],
         appointment_id: @appointment.id,
         service_id: params[:service_id],
         salon_id: @salon.id,
         barbar_id: params[:barbar_id],
-        date: params[:date]
+        date: params[:date],
+        time_slot: params[:time_slot]
       }
     })
 

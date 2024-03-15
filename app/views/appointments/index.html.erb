@@ -1,71 +1,78 @@
-
 <div class="container-fluid position-relative" style="background-image: url('<%= url_for(@salon.cover_image) %>'); background-size: cover; height: 100vh;">
-    <div class="center" style="color: white;">
-
-      <h1>Appointments List</h1>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Barber</th>
-            <th>Service</th>
-            <th>Time Slot</th>                                                       
-            <th>Salon</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% if current_user %>
-            <% current_user.appointments.each do |appointment| %>
-              <tr>
-                <td><%= appointment.barbar.username %></td>
-                <% if appointment.service.present? %>
-                  <td><%= appointment.service.name %></td>
-                <% else %>
-                  <td>N/A</td>
-                <% end %>
-                <% if appointment.time_slot.present? %>
-                  <td><%= "#{appointment.time_slot.formatted_start_time} - #{appointment.time_slot.end_time}" %></td>
-                <% else %>
-                  <td>N/A</td>
-                <% end %>
-                <% if appointment.salon.present? %>
-                  <td><%= appointment.salon.name %></td>
-                <% else %>
-                  <td>N/A</td>
-                <% end %>
-              </tr>
-            <% end %>
-          <% else %>
-            <% current_barbar.appointments.each do |appointment| %>
-              <tr>
-                <td><%= appointment.barbar.username %></td>
-                <% if appointment.service.present? %>
-                  <td><%= appointment.service.name %></td>
-                <% else %>
-                  <td>N/A</td>
-                <% end %>
-                <% if appointment.time_slot.present? %>
-                  <td><%= "#{appointment.time_slot.formatted_start_time} - #{appointment.time_slot.end_time}" %></td>
-                <% else %>
-                  <td>N/A</td>
-                <% end %>
-                <% if appointment.salon.present? %>
-                  <td><%= appointment.salon.name %></td>
-                <% else %>
-                  <td>N/A</td>
-                <% end %>
-              </tr>
-            <% end %>
+  <div class="center" style="color: white;">
+    <h1>Appointments List</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Barber</th>
+          <th>Service</th>
+          <th>Date</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Salon</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if current_user %>
+          <% current_user.appointments.each do |appointment| %>
+            <tr>
+              <td><%= appointment.barbar.username %></td>
+              <% if appointment.service.present? %>
+                <td><%= appointment.service.name %></td>
+              <% else %>
+                <td>N/A</td>
+              <% end %>
+              <% if appointment.time_slot.present? %>
+                <% start_time = appointment.time_slot.start_time.in_time_zone('Asia/Kolkata').strftime('%Y-%m-%d') %>
+                <% start_time_display = appointment.time_slot.start_time.in_time_zone('Asia/Kolkata').strftime('%H:%M') %>
+                <% end_time_display = appointment.time_slot.end_time.in_time_zone('Asia/Kolkata').strftime('%H:%M') %>
+                <td><%= start_time %></td>
+                <td><%= start_time_display %></td>
+                <td><%= end_time_display %></td>
+              <% else %>
+                <td>N/A</td>
+                <td>N/A</td>
+                <td>N/A</td>
+              <% end %>
+              <% if appointment.salon.present? %>
+                <td><%= appointment.salon.name %></td>
+              <% else %>
+                <td>N/A</td>
+              <% end %>
+            </tr>
           <% end %>
-
-        </tbody>
-      </table>
-            <%= link_to "Show Services", salon_path(@salon) %>
-
-          <%= will_paginate @appointments %>
-
-
-    </div>
+        <% else %>
+          <% current_barbar.appointments.each do |appointment| %>
+            <tr>
+              <td><%= appointment.barbar.username %></td>
+              <% if appointment.service.present? %>
+                <td><%= appointment.service.name %></td>
+              <% else %>
+                <td>N/A</td>
+              <% end %>
+              <% if appointment.time_slot.present? %>
+                <% start_time = appointment.time_slot.start_time.in_time_zone('Asia/Kolkata').strftime('%Y-%m-%d') %>
+                <% start_time_display = appointment.time_slot.start_time.in_time_zone('Asia/Kolkata').strftime('%H:%M') %>
+                <% end_time_display = appointment.time_slot.end_time.in_time_zone('Asia/Kolkata').strftime('%H:%M') %>
+                <td><%= start_time %></td>
+                <td><%= start_time_display %></td>
+                <td><%= end_time_display %></td>
+              <% else %>
+                <td>N/A</td>
+                <td>N/A</td>
+                <td>N/A</td>
+              <% end %>
+              <% if appointment.salon.present? %>
+                <td><%= appointment.salon.name %></td>
+              <% else %>
+                <td>N/A</td>
+              <% end %>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+    <%= link_to "Show Services", salon_path(@salon) %>
+    <%= will_paginate @appointments %>
   </div>
-</body>
-</html>
+</div>

@@ -22,8 +22,8 @@ class Salon < ApplicationRecord
   
   
   
-  def available_seats(time_slot)
-    seat_capacity - appointments.where(time_slot: time_slot).count
-  end
+  # def available_seats(time_slot)
+  #   seat_capacity - appointments.where(time_slot: time_slot).count
+  # end
  
 end

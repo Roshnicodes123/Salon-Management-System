@@ -19,6 +19,7 @@ class AppointmentsController < ApplicationController
   def create
     
     @appointment = Appointment.new(appointment_params)
+    debugger
   
     @appointment.date = Date.parse(params[:appointment][:date])
     @appointment.time_slot = @time_slot
