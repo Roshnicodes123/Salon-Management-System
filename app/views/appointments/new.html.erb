@@ -22,13 +22,13 @@
       <br>
 
       <%= form.label :date, 'Select Date:' %>
-      <%= form.date_field :date, class: 'date-picker', id: 'slot_date_picker' %>
+      <%= form.date_field :date, class: 'date-picker', id: 'slot_date_picker', min: Date.today %> 
       <br>
        
       <div class="time-slots" id="time-slot-container"></div>
       <br>
 
-      <%= form.submit 'Book Appointment' %>
+        <%= form.submit 'Book Appointment' %>
     <% end %>
   </div>
 </div>

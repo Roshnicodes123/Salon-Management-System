@@ -25,9 +25,10 @@ class AppointmentsController < ApplicationController
     if @appointment.save
       redirect_to new_salon_appointment_payment_path(@salon, @appointment)
     else
-      puts @appointment.errors.full_messages # Add this line to print errors to the console
+      puts @appointment.errors.full_messages 
       render :new
     end
+  
   end
   
 

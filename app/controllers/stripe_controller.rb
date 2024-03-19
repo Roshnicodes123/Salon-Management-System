@@ -1,4 +1,6 @@
 class StripeController < ApplicationController
+  before_action :authenticate_user!
+
   before_action :set_salon, :fetch_appointment_slot, :validate_appointment, only: :create_session
 
   def new
@@ -11,7 +13,7 @@ class StripeController < ApplicationController
     service_name = service.name
 
     session = Stripe::Checkout::Session.create({
-      success_url: 'http://127.0.0.1:3000/salons/4/appointments', 
+      success_url: "http://127.0.0.1:3000/salons/#{@salon.id}/appointments", 
       cancel_url: 'https://example.com/cancel',
       payment_method_types: ['card'],
       line_items: [
