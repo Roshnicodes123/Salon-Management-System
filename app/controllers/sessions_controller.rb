@@ -1,4 +1,3 @@
-# app/controllers/barbers/sessions_controller.rb
 
 class SessionsController < Devise::SessionsController
   before_action :check_status, only: :create
