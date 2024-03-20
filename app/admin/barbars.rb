@@ -8,6 +8,14 @@ ActiveAdmin.register Barbar do
     column :status
     column :salon
     actions
+    actions do |barbars|
+    
+      if barbars.status == 'active'
+        link_to 'Inactive',barbars_staus_salon_barbar_path(barbars.id)
+      else
+        link_to 'Active', barbars_staus_salon_barbar_path(barbars.id)
+      end
+    end
   end
 
   filter :email
@@ -29,4 +37,12 @@ ActiveAdmin.register Barbar do
     end
   end
   
+  member_action :barbars_staus, method: :get do
+    barbar = Barbar.find(params[:id])
+    if barbar.status =='active'
+      barbar.update(status:0)
+    else 
+      barbar.update(status:1)
+    end
+  end
 end
