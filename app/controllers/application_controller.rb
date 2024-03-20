@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
       authenticate_user!
     elsif request.path.include?('barbars')
       authenticate_barbar!
+  
     end
   end
 

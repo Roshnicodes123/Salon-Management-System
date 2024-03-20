@@ -44,5 +44,7 @@ ActiveAdmin.register Barbar do
     else 
       barbar.update(status:1)
     end
+    redirect_to salon_barbars_path
+
   end
 end
