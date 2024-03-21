@@ -109,6 +109,7 @@ ActiveAdmin.setup do |config|
   # This setting changes the method which Active Admin calls
   # (within the application controller) to return the currently logged in user.
   config.current_user_method = :current_salon
+  config.skip_before_action :authenticate_user_or_barbar!
 
   # == Logging Out
   #

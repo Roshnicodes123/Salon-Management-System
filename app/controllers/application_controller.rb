@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_current_salon
-  before_action :authenticate_user_or_barber!
+  before_action :authenticate_user_or_barbar!
   
 
   protected
@@ -12,14 +12,18 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def authenticate_user_or_barber!
-    if request.path.include?('users')
+  def authenticate_user_or_barbar!
+    unless user_signed_in? || barbar_signed_in?
       authenticate_user!
-    elsif request.path.include?('barbars')
-      authenticate_barbar!
-  
+    else
+      if request.path.include?('users')
+        authenticate_user!
+      elsif request.path.include?('barbars')
+        authenticate_barbar!
+      end
     end
   end
+  
 
   def set_current_user
     @current_user = current_user

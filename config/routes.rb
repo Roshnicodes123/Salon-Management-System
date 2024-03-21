@@ -3,11 +3,16 @@ Rails.application.routes.draw do
   devise_for :salons, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
  
-  devise_for :users
+  devise_for :users,
+  controllers: {
+    registrations: 'user_registrations',
+    sessions: 'user_sessions'
+  }
+
   devise_for :barbars,
     controllers: {
-      registrations: 'registrations',
-      sessions: 'sessions'
+      registrations: 'barbar_registrations',
+      sessions: 'barbar_sessions'
     }
   
   root to: "salons#index"

@@ -1,4 +1,6 @@
 class StripeWebhooksController < ApplicationController
+  skip_before_action :authenticate_user_or_barbar!
+
     protect_from_forgery
 
     def payment_success

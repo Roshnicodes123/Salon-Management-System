@@ -1,4 +1,4 @@
-class RegistrationsController < Devise::RegistrationsController
+class BarbarRegistrationsController < Devise::RegistrationsController
   def create
     super
     sign_out(resource)
